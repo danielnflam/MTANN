@@ -15,14 +15,14 @@ import skimage.transform as sktf
 
 # HELPER FUNCTIONS
 def load_networks(first_layer=81, second_layer=20, path_HR=None, path_MR=None, path_LR=None):
-    netHR = linearOutputANN(first_layer=81, second_layer=20)
-    netMR = linearOutputANN(first_layer=81, second_layer=20)
-    netLR = linearOutputANN(first_layer=81, second_layer=20)
+    netHR = linearOutputANN(first_layer, second_layer)
+    netMR = linearOutputANN(first_layer, second_layer)
+    netLR = linearOutputANN(first_layer, second_layer)
     
     if path_HR is not None and path_MR is not None and path_LR is not None:
-        netHR.load_state_dict(torch.load('./netHR.pt')["model_state_dict"])
-        netMR.load_state_dict(torch.load('./netMR.pt')["model_state_dict"])
-        netLR.load_state_dict(torch.load('./netLR.pt')["model_state_dict"])
+        netHR.load_state_dict(torch.load(path_HR)["model_state_dict"])
+        netMR.load_state_dict(torch.load(path_MR)["model_state_dict"])
+        netLR.load_state_dict(torch.load(path_LR)["model_state_dict"])
     return netHR, netMR, netLR
 
 
@@ -217,6 +217,7 @@ class linearOutputANN(nn.Module):
         
 class linearActivationFunction(nn.Module):
     def __init__(self, a, b):
+        super().__init__()
         self.gradient = nn.Parameter(torch.tensor(a))
         self.offset = nn.Parameter(torch.tensor(b))
     def forward(self, x):
