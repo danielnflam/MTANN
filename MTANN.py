@@ -201,7 +201,7 @@ class linearOutputANN(nn.Module):
         self.second_layer = nn.Linear(self.second_layer_nodes, self.third_layer_nodes)
         
         self.sigmoidFunction = nn.Sigmoid()
-        self.linearFunction = nn.ReLU()
+        self.linearFunction = linearActivationFunction(1.,0.)#nn.ReLU()
         
     def forward(self, x):
         out = self.flatten(x)
@@ -217,7 +217,7 @@ class linearOutputANN(nn.Module):
         
 class linearActivationFunction(nn.Module):
     def __init__(self, a, b):
-        self.gradient = a
-        self.offset = b
+        self.gradient = nn.Parameter(torch.tensor(a))
+        self.offset = nn.Parameter(torch.tensor(b))
     def forward(self, x):
-        return self.gradient*a + self.offset
+        return self.gradient*x + self.offset
