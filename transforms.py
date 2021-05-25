@@ -1,7 +1,7 @@
 import torch
 import pandas as pd
 import numpy as np
-from skimage import io, transform
+from skimage import io, transform 
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 import os, sys, time, datetime
